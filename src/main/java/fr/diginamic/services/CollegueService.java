@@ -43,13 +43,34 @@ public class CollegueService {
 		// TODO retourner une liste de collègues dont le nom est fourni
 		for (String Key : this.data.keySet()) {
 			this.data.get(Key); // Pour acceder aux clés de ma hashmap
-			System.out.println(Key + "->" + this.data.get(Key));
+
 			if (this.data.get(Key).getNom().equals(nomRecherche)) {
 				listeDeCollegues.add(this.data.get(Key));
 			}
 		}
 		return listeDeCollegues;
 
+	}
+
+	public Collegue rechercherParMatricule(String matriculeRecherche) {
+
+		// TODO retourner le collègue dont le matricule est fourni
+
+		// TODO retourner une exception `CollegueNonTrouveException` (à créer)
+		// si le matricule ne correspond à aucun collègue
+		Collegue reponse = null;
+		// TODO retourner une liste de collègues dont le nom est fourni
+		for (String Key : this.data.keySet()) {
+			this.data.get(Key); // Pour acceder aux clés de ma hashmap
+
+			if (this.data.get(Key).getMatricule().equals(matriculeRecherche)) {
+				reponse = this.data.get(Key);
+			}
+		}
+		if (reponse == null) {
+			throw new RuntimeException();
+		}
+		return reponse;
 	}
 
 }
