@@ -1,6 +1,7 @@
 package fr.diginamic.services;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import fr.diginamic.entites.Collegue;
+import fr.diginamic.exceptions.CollegueInvalideException;
+import fr.diginamic.exceptions.CollegueNonTrouve;
 
 public class CollegueService {
 
@@ -68,9 +71,76 @@ public class CollegueService {
 			}
 		}
 		if (reponse == null) {
-			throw new RuntimeException();
+			throw new CollegueNonTrouve("Aucun collegue ne correspond à ce matricule");
 		}
 		return reponse;
+	}
+
+	public Collegue ajouterUnCollegue(Collegue collegueAAjouter) throws CollegueInvalideException {
+
+		if (collegueAAjouter.getNom().length() < 3) {
+			throw new CollegueInvalideException("le nom doit avoir au moins 2 caractères");
+		}
+		if (collegueAAjouter.getPrenoms().length() < 3) {
+			throw new CollegueInvalideException("le prenom doit avoir au moins 2 caractères");
+		}
+		if (!collegueAAjouter.getPhotoUrl().startsWith("http")) {
+			throw new CollegueInvalideException("la photoUrl doit commencer par http");
+		}
+		if (collegueAAjouter.getEmail().length() > 4 && collegueAAjouter.getEmail().indexOf("@") > 0) {
+			throw new CollegueInvalideException("l'email doit avoir au moins 3 caractères et contenir @");
+		}
+		if (Period.between(collegueAAjouter.getDateDeNaissance(), LocalDate.now()).getYears() < 18) {
+			throw new CollegueInvalideException("l'age doit etre au minimum 18 ans");
+		}
+
+		collegueAAjouter.setMatricule(UUID.randomUUID().toString());
+		this.data.put(collegueAAjouter.getMatricule(), collegueAAjouter);
+
+		return collegueAAjouter;
+
+	}
+
+	public Collegue modifierEmail(String matricule, String email) {
+
+		Collegue collegue = this.rechercherParMatricule(matricule);
+		if (email.length() < 3 && email.indexOf("@") < 1) {
+			throw new CollegueInvalideException("l'email doit avoir au moins 3 caractères et contenir @");
+		} else {
+			collegue.setEmail(email);
+		}
+
+		// TODO retourner une exception `CollegueNonTrouveException`
+		// si le matricule ne correspond à aucun collègue
+
+		// TODO Vérifier que l'email a au moins 3 caractères et contient `@`
+		// TODO Si la règle ci-dessus n'est pas valide, générer une exception :
+		// `CollegueInvalideException`. avec un message approprié.
+
+		// TODO Modifier le collègue
+
+		return collegue;
+	}
+
+	public Collegue modifierPhotoUrl(String matricule, String photoUrl) {
+
+		if (!photoUrl.startsWith("http")) {
+			throw new CollegueInvalideException("la photoUrl doit commencer par http");
+		} else {
+			Collegue collegue = this.rechercherParMatricule(matricule);
+			collegue.setPhotoUrl(photoUrl);
+			return collegue;
+		}
+
+		// TODO retourner une exception `CollegueNonTrouveException`
+		// si le matricule ne correspond à aucun collègue
+
+		// TODO Vérifier que la photoUrl commence bien par `http`
+		// TODO Si la règle ci-dessus n'est pas valide, générer une exception :
+		// `CollegueInvalideException`. avec un message approprié.
+
+		// TODO Modifier le collègue
+
 	}
 
 }
