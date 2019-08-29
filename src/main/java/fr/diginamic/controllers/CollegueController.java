@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,16 +27,23 @@ import fr.diginamic.services.CollegueService;
 @RequestMapping(path = "/collegues")
 public class CollegueController {
 
-	CollegueService collegueService = new CollegueService();
+	@Autowired
+	CollegueService collegueService;
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CollegueController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<String> reqParam(@RequestParam String nom) {
+	public List<Collegue> reqParam() {
 
-		List<String> reponse = new ArrayList<String>();
+		return collegueService.listeCollegue();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, params = { "nom" })
+	public List<Collegue> reqParam(@RequestParam String nom) {
+
+		List<Collegue> reponse = new ArrayList<Collegue>();
 
 		for (Collegue collegue : collegueService.rechercherParNom(nom)) {
-			reponse.add(collegue.getMatricule());
+			reponse.add(collegue);
 		}
 
 		return reponse;
