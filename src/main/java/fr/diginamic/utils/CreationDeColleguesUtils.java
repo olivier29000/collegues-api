@@ -1,8 +1,8 @@
 package fr.diginamic.utils;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -12,9 +12,9 @@ import fr.diginamic.entites.Collegue;
 @Component
 public class CreationDeColleguesUtils {
 
-	public Map<String, Collegue> creerDesCollegues() {
+	public static List<Collegue> creerDesCollegues() {
 
-		Map<String, Collegue> data = new HashMap<>();
+		List<Collegue> data = new ArrayList<Collegue>();
 
 		Collegue collegue1 = new Collegue(UUID.randomUUID().toString(), "lasbleis", "olivier", "lasb.oliv@yahoo.fr",
 				LocalDate.now(), "http://ibgnews.com/wp-content/uploads/2016/07/Dev.jpg");
@@ -29,11 +29,11 @@ public class CreationDeColleguesUtils {
 				"breihzou.guillaume@yahoo.fr", LocalDate.now(),
 				"https://start.lesechos.fr/images/2016/12/09/6715_1481539030_developpeur-full-stack_970x545p.jpg");
 
-		data.put(collegue1.getMatricule(), collegue1);
-		data.put(collegue2.getMatricule(), collegue2);
-		data.put(collegue3.getMatricule(), collegue3);
-		data.put(collegue4.getMatricule(), collegue4);
-		data.put(collegue5.getMatricule(), collegue5);
+		data.add(collegue1);
+		data.add(collegue2);
+		data.add(collegue3);
+		data.add(collegue4);
+		data.add(collegue5);
 
 		return data;
 

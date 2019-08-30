@@ -2,8 +2,8 @@ package fr.diginamic.controllers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,35 +34,30 @@ public class CollegueController {
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Collegue> reqParam() {
 
-		return collegueService.listeCollegue();
+		return collegueService.afficherCollegues();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, params = { "nom" })
 	public List<Collegue> reqParam(@RequestParam String nom) {
 
-		List<Collegue> reponse = new ArrayList<Collegue>();
+		return collegueService.afficherParNom(nom);
 
-		for (Collegue collegue : collegueService.rechercherParNom(nom)) {
-			reponse.add(collegue);
-		}
-
-		return reponse;
 	}
 
 	@RequestMapping(path = "/{matricule}", method = RequestMethod.GET)
 	public Collegue collegueEnFonctionMatricule(@PathVariable String matricule) {
-
-		return collegueService.rechercherParMatricule(matricule);
+		return collegueService.afficherParMatricule(matricule);
 	}
 
 	@PostMapping
-	public String reqBody(@RequestBody Corps corps) throws CollegueInvalideException {
+	public Collegue reqBody(@RequestBody Corps corps) throws CollegueInvalideException {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-		collegueService.ajouterUnCollegue(new Collegue("afafa", corps.getNom(), corps.getPrenoms(), "",
+		String matricule = UUID.randomUUID().toString();
+		collegueService.insererCollegue(new Collegue(matricule, corps.getNom(), corps.getPrenoms(), "",
 				LocalDate.parse(corps.getDateDeNaissance(), formatter), corps.getPhotoUrl()));
-		return "ok";
+		return collegueService.afficherParMatricule(matricule);
 
 		// tbjbjkl
 	}
@@ -77,7 +72,7 @@ public class CollegueController {
 		if (corps.getEmail() != null) {
 			collegueService.modifierEmail(matricule, corps.getEmail());
 		}
-		return collegueService.rechercherParMatricule(matricule);
+		return collegueService.afficherParMatricule(matricule);
 
 		// tbjbjkl
 	}
