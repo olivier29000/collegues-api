@@ -2,15 +2,24 @@ package fr.diginamic.entites;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class Collegue {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public long id;
 	public String matricule;
 	public String nom;
 	public String prenoms;
