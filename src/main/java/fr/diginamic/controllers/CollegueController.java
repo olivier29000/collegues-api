@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import fr.diginamic.exceptions.CollegueNonTrouve;
 import fr.diginamic.services.CollegueService;
 
 @RestController
+@Secured("ROLE_USER")
 @RequestMapping(path = "/collegues")
 public class CollegueController {
 
@@ -37,6 +39,7 @@ public class CollegueController {
 		return collegueService.afficherCollegues();
 	}
 
+	@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.GET, params = { "nom" })
 	public List<Collegue> reqParam(@RequestParam String nom) {
 
@@ -44,11 +47,13 @@ public class CollegueController {
 
 	}
 
+	@Secured("ROLE_USER")
 	@RequestMapping(path = "/{matricule}", method = RequestMethod.GET)
 	public Collegue collegueEnFonctionMatricule(@PathVariable String matricule) {
 		return collegueService.afficherParMatricule(matricule);
 	}
 
+	@Secured("ROLE_ADMIN")
 	@PostMapping
 	public Collegue reqBody(@RequestBody Corps corps) throws CollegueInvalideException {
 
@@ -62,6 +67,7 @@ public class CollegueController {
 		// tbjbjkl
 	}
 
+	@Secured("ROLE_ADMIN")
 	@PostMapping(path = "/{matricule}")
 	public Collegue reqBodyModifPhotoUrl(@RequestBody Corps corps, @PathVariable String matricule)
 			throws CollegueInvalideException {

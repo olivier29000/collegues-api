@@ -49,4 +49,41 @@ public class CollegueServiceIntegrationTest {
 		Assert.assertEquals(3, collegueService.afficherParNom(nom).size());
 	}
 
+	@Test
+	public void afficherParNomTestKo() {
+		String nom = UUID.randomUUID().toString();
+
+		Assert.assertEquals(0, collegueService.afficherParNom(nom).size());
+	}
+
+	@Test
+	public void afficherParMatriculeTestOk() {
+		String matricule = UUID.randomUUID().toString();
+
+		Assert.assertEquals(null, collegueService.afficherParMatricule(matricule));
+	}
+
+	@Test
+	public void modifierPhotoUrlKo() {
+		String matricule = UUID.randomUUID().toString();
+		collegueRepository.save(new Collegue(matricule, "nom", "prenoms", "email", LocalDate.now(), "photoUrl"));
+		collegueService.modifierPhotoUrl(matricule, "testRéussi");
+		Assert.assertEquals(matricule, collegueService.afficherParMatricule(matricule).getMatricule());
+	}
+
+	@Test
+	public void modifierPhotoUrlOk() {
+		String matricule = UUID.randomUUID().toString();
+		collegueRepository.save(new Collegue(matricule, "nom", "prenoms", "email", LocalDate.now(), "photoUrl"));
+
+		Assert.assertEquals(matricule, collegueService.afficherParMatricule(matricule).getMatricule());
+	}
+
+	@Test
+	public void afficherParMatriculeTestKo() {
+		String matricule = UUID.randomUUID().toString();
+
+		Assert.assertEquals(null, collegueService.afficherParMatricule(matricule));
+	}
+
 }

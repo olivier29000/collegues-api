@@ -15,7 +15,6 @@ public class CreationDeColleguesUtils {
 	public static List<Collegue> creerDesCollegues() {
 
 		List<Collegue> data = new ArrayList<Collegue>();
-
 		Collegue collegue1 = new Collegue(UUID.randomUUID().toString(), "lasbleis", "olivier", "lasb.oliv@yahoo.fr",
 				LocalDate.now(), "http://ibgnews.com/wp-content/uploads/2016/07/Dev.jpg");
 		Collegue collegue2 = new Collegue(UUID.randomUUID().toString(), "lasbleis", "kevin", "seguineau.kevin@yahoo.fr",
@@ -28,7 +27,6 @@ public class CreationDeColleguesUtils {
 		Collegue collegue5 = new Collegue(UUID.randomUUID().toString(), "breihzou", "guillaume",
 				"breihzou.guillaume@yahoo.fr", LocalDate.now(),
 				"https://start.lesechos.fr/images/2016/12/09/6715_1481539030_developpeur-full-stack_970x545p.jpg");
-
 		data.add(collegue1);
 		data.add(collegue2);
 		data.add(collegue3);
