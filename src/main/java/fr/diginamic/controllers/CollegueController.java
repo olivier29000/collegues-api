@@ -40,6 +40,14 @@ public class CollegueController {
 	}
 
 	@Secured("ROLE_USER")
+	@RequestMapping(method = RequestMethod.GET, params = { "nom_collegue" })
+	public List<String> obtenirLaListeDesMatricules(@RequestParam String nom_collegue) {
+
+		return collegueService.obtenirLaListeDesMatricules(nom_collegue);
+
+	}
+
+	@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.GET, params = { "nom" })
 	public List<Collegue> reqParam(@RequestParam String nom) {
 

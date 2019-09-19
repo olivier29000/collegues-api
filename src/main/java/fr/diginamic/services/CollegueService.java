@@ -1,5 +1,6 @@
 package fr.diginamic.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -32,6 +33,20 @@ public class CollegueService {
 		logger.info(v.toString());
 		return v;
 
+	}
+
+	public List<String> obtenirLaListeDesMatricules(String nom_collegue) {
+		// TODO Auto-generated method stub
+
+		List<Collegue> v = collegueRepository.findAll();
+		List<String> listeDeMatricules = new ArrayList<String>();
+		for (Collegue collegue : v) {
+			if (collegue.getNom().equals(nom_collegue)) {
+				listeDeMatricules.add(collegue.getMatricule());
+			}
+
+		}
+		return listeDeMatricules;
 	}
 
 	@Transactional
