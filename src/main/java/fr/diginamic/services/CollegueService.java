@@ -2,6 +2,7 @@ package fr.diginamic.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.diginamic.datajpa.CollegueRepository;
 import fr.diginamic.entites.Collegue;
+import fr.diginamic.entites.CorpsGetPhotos;
 import fr.diginamic.utils.CollegueValidatorUtils;
 import fr.diginamic.utils.CreationDeColleguesUtils;
 
@@ -91,6 +93,29 @@ public class CollegueService {
 		Collegue collegue = collegueRepository.findByMatricule(matricule);
 		collegue.setEmail(email);
 		collegueRepository.save(collegue);
+	}
+
+	public boolean verifierSiEmailExiste(String email) {
+		// TODO Auto-generated method stub
+		Optional<Collegue> collegue = collegueRepository.findByEmail(email);
+		if (collegue.isPresent()) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public List<CorpsGetPhotos> obtenirCorpsGetPhotos() {
+		// TODO Auto-generated method stub
+
+		List<Collegue> listeDeCollegue = collegueRepository.findAll();
+		List<CorpsGetPhotos> listeDeCorpsGetPhotos = new ArrayList<CorpsGetPhotos>();
+
+		for (Collegue collegue : listeDeCollegue) {
+			listeDeCorpsGetPhotos.add(new CorpsGetPhotos(collegue.getMatricule(), collegue.getPhotoUrl()));
+		}
+		return listeDeCorpsGetPhotos;
 	}
 
 }

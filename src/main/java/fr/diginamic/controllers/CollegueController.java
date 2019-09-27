@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.diginamic.entites.Collegue;
 import fr.diginamic.entites.Corps;
+import fr.diginamic.entites.CorpsGetPhotos;
 import fr.diginamic.exceptions.CollegueInvalideException;
 import fr.diginamic.exceptions.CollegueNonTrouve;
 import fr.diginamic.services.CollegueService;
@@ -59,6 +60,18 @@ public class CollegueController {
 	@RequestMapping(path = "/{matricule}", method = RequestMethod.GET)
 	public Collegue collegueEnFonctionMatricule(@PathVariable String matricule) {
 		return collegueService.afficherParMatricule(matricule);
+	}
+
+	@Secured("ROLE_USER")
+	@RequestMapping(path = "/photos", method = RequestMethod.GET)
+	public List<CorpsGetPhotos> obtenirCorpsGetPhotos() {
+		return collegueService.obtenirCorpsGetPhotos();
+	}
+
+	@Secured("ROLE_USER")
+	@RequestMapping(path = "/email/{email}", method = RequestMethod.GET)
+	public boolean emailExisteOuNon(@PathVariable String email) {
+		return collegueService.verifierSiEmailExiste(email);
 	}
 
 	@Secured("ROLE_ADMIN")
